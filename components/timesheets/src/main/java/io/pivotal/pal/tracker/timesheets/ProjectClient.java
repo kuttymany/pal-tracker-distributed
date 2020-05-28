@@ -9,11 +9,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ProjectClient {
-
+    private final Logger logger = (Logger) LoggerFactory.getLogger(getClass());
+    private final Map<Long, ProjectInfo> projectsCache = new ConcurrentHashMap<>();
     private final RestOperations restOperations;
     private final String endpoint;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final Map<Long, ProjectInfo> projectsCache = new ConcurrentHashMap<>();
 
     public ProjectClient(RestOperations restOperations, String registrationServerEndpoint) {
         this.restOperations = restOperations;
@@ -23,13 +22,8 @@ public class ProjectClient {
     public ProjectInfo getProject(long projectId) {
         return restOperations.getForObject(endpoint + "/projects/" + projectId, ProjectInfo.class);
     }
-
     public ProjectInfo getProjectFromCache(long projectId, Throwable cause) {
-
         logger.info("Getting project with id {} from cache", projectId);
-
         return projectsCache.get(projectId);
-
     }
-
 }

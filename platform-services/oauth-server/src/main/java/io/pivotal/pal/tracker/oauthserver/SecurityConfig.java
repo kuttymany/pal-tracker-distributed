@@ -14,20 +14,20 @@ public class SecurityConfig extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-            .withClient("tracker-client")
-            .secret("supersecret")
-            .authorizedGrantTypes("client_credentials")
-            .scopes("openid");
+                .withClient("tracker-client")
+                .secret("supersecret")
+                .authorizedGrantTypes("client_credentials")
+                .scopes("openid");
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public void configure(AuthorizationServerSecurityConfigurer oauthServer)
-        throws Exception {
+            throws Exception {
         oauthServer
-            // NoOpPasswordEncoder is not secure but will be OK for local testing purposes.
-            .passwordEncoder(NoOpPasswordEncoder.getInstance())
-            .tokenKeyAccess("permitAll()")
-            .checkTokenAccess("isAuthenticated()");
+                // NoOpPasswordEncoder is not secure but will be OK for local testing purposes.
+                .passwordEncoder(NoOpPasswordEncoder.getInstance())
+                .tokenKeyAccess("permitAll()")
+                .checkTokenAccess("isAuthenticated()");
     }
 }

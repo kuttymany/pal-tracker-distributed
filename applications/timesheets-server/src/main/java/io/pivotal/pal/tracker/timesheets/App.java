@@ -1,5 +1,6 @@
 package io.pivotal.pal.tracker.timesheets;
 
+import com.netflix.hystrix.Hystrix;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +12,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.web.client.RestOperations;
 
+import javax.annotation.PreDestroy;
 import java.util.TimeZone;
 
 @EnableWebSecurity
@@ -33,4 +35,9 @@ public class App {
     ) {
         return new ProjectClient(restOperations, registrationEndpoint);
     }
+    @PreDestroy
+    public void cleanUp() {
+        Hystrix.reset();
+    }
+
 }

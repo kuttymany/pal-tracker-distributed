@@ -1,16 +1,18 @@
 package io.pivotal.pal.tracker.allocations;
 
+import com.netflix.hystrix.Hystrix;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.web.client.RestOperations;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
+import javax.annotation.PreDestroy;
 import java.util.TimeZone;
 
 @EnableWebSecurity
@@ -33,4 +35,10 @@ public class App {
     ) {
         return new ProjectClient(restOperations, registrationEndpoint);
     }
+
+    @PreDestroy
+    public void cleanUp() {
+        Hystrix.reset();
+    }
+
 }
