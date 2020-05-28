@@ -29,7 +29,6 @@ buildscript {
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
         classpath "mysql:mysql-connector-java:$mysqlVersion"
-        classpath "io.pivotal.pal.assignments:assignments-plugin:4.7.1"
     }
 }
 
